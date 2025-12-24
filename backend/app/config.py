@@ -6,8 +6,11 @@ class Settings(BaseSettings):
     """Application settings."""
     
     # App info
-    app_name: str = "Local AI Platform"
+    app_name: str = "NeuroLine"
     app_version: str = "0.1.0"
+    app_description: str = "AI Accelerator Tool by Smart Factory"
+    contact_name: str = "Doug Richards"
+    organization: str = "Smart Factory"
     
     # Server
     host: str = "127.0.0.1"

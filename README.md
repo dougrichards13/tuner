@@ -1,6 +1,14 @@
-# Local AI Platform (Tuner)
+# NeuroLine
 
-A sophisticated, 100% local AI platform that replaces Ollama's interface with advanced features for project management, specialized agents, and model tuning.
+**An AI Accelerator Tool by Smart Factory**
+
+A sophisticated, 100% local AI platform that combines neural intelligence with assembly-line efficiency. NeuroLine replaces traditional AI interfaces with advanced features for project management, specialized agents, and model tuning - powering your AI-driven build flow.
+
+---
+
+**Created by Smart Factory**  
+**Contact:** Doug Richards  
+**Part of the AI Accelerator Program**
 
 ## Features
 
@@ -103,6 +111,13 @@ Once the backend is running, visit `http://localhost:8000/docs` for interactive 
 
 MIT
 
-## Contributing
+## About Smart Factory
 
-This is a personal project, but feel free to fork and adapt for your own use!
+Smart Factory is dedicated to accelerating AI adoption through strategic support programs. NeuroLine is a key tool in our AI Accelerator initiative, designed to streamline AI-powered workflows for internal teams.
+
+**Contact:** Doug Richards  
+**Program:** AI Accelerator
+
+## License
+
+Created by Smart Factory. For internal use.

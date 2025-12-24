@@ -11,7 +11,11 @@ init_db()
 app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
-    description="Local AI Platform API"
+    description=f"{settings.app_description} - API",
+    contact={
+        "name": settings.contact_name,
+        "email": "dougrichards13@gmail.com",
+    },
 )
 
 # Configure CORS
@@ -35,6 +39,10 @@ def root():
     return {
         "name": settings.app_name,
         "version": settings.app_version,
+        "description": settings.app_description,
+        "organization": settings.organization,
+        "contact": settings.contact_name,
+        "program": "AI Accelerator",
         "status": "running"
     }
 

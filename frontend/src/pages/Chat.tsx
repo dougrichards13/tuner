@@ -135,9 +135,10 @@ export const Chat: React.FC = () => {
       {/* Header */}
       <div className="bg-white border-b border-gray-200 p-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-900">
-            Local AI Platform
-          </h1>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">NeuroLine</h1>
+            <p className="text-xs text-gray-500">AI Accelerator by Smart Factory</p>
+          </div>
           <div className="flex gap-4">
             {/* Project Selector */}
             <select

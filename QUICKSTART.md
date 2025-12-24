@@ -1,6 +1,9 @@
-# Quick Start Guide
+# NeuroLine - Quick Start Guide
 
-Get the Local AI Platform (Tuner) up and running in minutes!
+**AI Accelerator Tool by Smart Factory**  
+**Contact:** Doug Richards
+
+Get NeuroLine up and running in minutes!
 
 ## Prerequisites
 
@@ -17,8 +20,8 @@ Before you begin, ensure you have:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/dougrichards13/tuner.git
-cd tuner
+git clone https://github.com/dougrichards13/tuner.git neuroline
+cd neuroline
 ```
 
 ### 2. Backend Setup
