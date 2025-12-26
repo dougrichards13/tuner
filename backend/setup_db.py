@@ -29,7 +29,7 @@ def setup():
         agent = Agent(
             name="General Assistant",
             description="A helpful general-purpose AI assistant",
-            base_model="llama2",  # Change this to a model you have installed
+            base_model="llama3.2",
             system_prompt="You are a helpful AI assistant. Be concise and friendly.",
             temperature=0.7,
             max_tokens=2048

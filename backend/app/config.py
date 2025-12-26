@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     port: int = 8000
     
     # Database
-    database_url: str = "sqlite:///./data/ai_platform.db"
+    database_url: str = "sqlite:///../data/ai_platform.db"
     
     # Ollama
     ollama_base_url: str = "http://localhost:11434"
