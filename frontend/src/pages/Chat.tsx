@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useAppStore } from "../stores/useAppStore";
 import { projectsApi, agentsApi, chatApi } from "../services/api";
 import { ChatMessage } from "../components/ChatMessage";
 import { ChatInput } from "../components/ChatInput";
+import { ConversationList } from "../components/ConversationList";
 import type { Message } from "../types";
 
 export const Chat: React.FC = () => {
@@ -11,19 +12,24 @@ export const Chat: React.FC = () => {
     currentProject,
     currentAgent,
     currentConversationId,
+    conversations,
     messages,
     isStreaming,
     streamingMessage,
     setCurrentProject,
     setCurrentAgent,
     setCurrentConversationId,
+    setConversations,
     setMessages,
+    clearMessages,
     addMessage,
     setIsStreaming,
     appendStreamingMessage,
     clearStreamingMessage,
+    startNewConversation,
   } = useAppStore();
 
+  const [showConversations, setShowConversations] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Fetch projects
@@ -44,6 +50,24 @@ export const Chat: React.FC = () => {
     },
   });
 
+  // Fetch conversations for current project
+  const { data: conversationsData } = useQuery({
+    queryKey: ["conversations", currentProject?.id],
+    queryFn: async () => {
+      if (!currentProject) return [];
+      const response = await chatApi.getConversations(currentProject.id);
+      return response.data;
+    },
+    enabled: !!currentProject,
+  });
+
+  // Update conversations when data changes
+  useEffect(() => {
+    if (conversationsData) {
+      setConversations(conversationsData);
+    }
+  }, [conversationsData, setConversations]);
+
   // Auto-select first project and agent if available
   useEffect(() => {
     if (projects && projects.length > 0 && !currentProject) {
@@ -57,10 +81,33 @@ export const Chat: React.FC = () => {
     }
   }, [agents, currentAgent, setCurrentAgent]);
 
+  // Load messages when conversation changes
+  useEffect(() => {
+    if (currentConversationId && conversations.length > 0) {
+      const conversation = conversations.find(c => c.id === currentConversationId);
+      if (conversation) {
+        setMessages(conversation.messages);
+      }
+    }
+  }, [currentConversationId, conversations]);
+
   // Scroll to bottom when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, streamingMessage]);
+
+  const handleSelectConversation = (id: number) => {
+    const conversation = conversations.find((c) => c.id === id);
+    if (conversation) {
+      setCurrentConversationId(id);
+      setMessages(conversation.messages);
+      clearStreamingMessage();
+    }
+  };
+
+  const handleNewConversation = () => {
+    startNewConversation();
+  };
 
   const handleSendMessage = (message: string) => {
     if (!currentProject || !currentAgent) return;
@@ -131,86 +178,125 @@ export const Chat: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex gap-4">
-            {/* Project Selector */}
-            <select
-              value={currentProject?.id || ""}
-              onChange={(e) => {
-                const project = projects?.find(
-                  (p) => p.id === Number(e.target.value)
-                );
-                setCurrentProject(project || null);
-                setMessages([]);
-                setCurrentConversationId(null);
-              }}
-              className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Select Project</option>
-              {projects?.map((project) => (
-                <option key={project.id} value={project.id}>
-                  {project.name}
-                </option>
-              ))}
-            </select>
-
-            {/* Agent Selector */}
-            <select
-              value={currentAgent?.id || ""}
-              onChange={(e) => {
-                const agent = agents?.find(
-                  (a) => a.id === Number(e.target.value)
-                );
-                setCurrentAgent(agent || null);
-              }}
-              className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Select Agent</option>
-              {agents?.map((agent) => (
-                <option key={agent.id} value={agent.id}>
-                  {agent.name}
-                </option>
-              ))}
-            </select>
-          </div>
+    <div className="flex h-full">
+      {/* Conversation List Sidebar */}
+      {showConversations && (
+        <div className="w-80 flex-shrink-0">
+          <ConversationList
+            conversations={conversations}
+            currentConversationId={currentConversationId}
+            onSelectConversation={handleSelectConversation}
+            onNewConversation={handleNewConversation}
+          />
         </div>
-      </div>
+      )}
 
-      {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.length === 0 && !streamingMessage && (
-          <div className="flex items-center justify-center h-full text-gray-500">
-            Start a conversation by typing a message below
-          </div>
-        )}
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col">
+        {/* Header */}
+        <div className="bg-white border-b border-gray-200 p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              {/* Toggle Conversations Button */}
+              <button
+                onClick={() => setShowConversations(!showConversations)}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                title={showConversations ? "Hide conversations" : "Show conversations"}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-gray-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              </button>
 
-        {messages.map((message) => (
-          <ChatMessage key={message.id} message={message} />
-        ))}
+              <div className="flex gap-4">
+                {/* Project Selector */}
+                <select
+                  value={currentProject?.id || ""}
+                  onChange={(e) => {
+                    const project = projects?.find(
+                      (p) => p.id === Number(e.target.value)
+                    );
+                    setCurrentProject(project || null);
+                  }}
+                  className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Select Project</option>
+                  {projects?.map((project) => (
+                    <option key={project.id} value={project.id}>
+                      {project.name}
+                    </option>
+                  ))}
+                </select>
 
-        {/* Streaming message */}
-        {streamingMessage && (
-          <div className="flex justify-start mb-4">
-            <div className="max-w-[70%] rounded-lg px-4 py-2 bg-white border border-gray-200 text-gray-900">
-              <div className="text-sm whitespace-pre-wrap">
-                {streamingMessage}
-                <span className="inline-block w-1 h-4 ml-1 bg-gray-900 animate-pulse" />
+                {/* Agent Selector */}
+                <select
+                  value={currentAgent?.id || ""}
+                  onChange={(e) => {
+                    const agent = agents?.find(
+                      (a) => a.id === Number(e.target.value)
+                    );
+                    setCurrentAgent(agent || null);
+                  }}
+                  className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Select Agent</option>
+                  {agents?.map((agent) => (
+                    <option key={agent.id} value={agent.id}>
+                      {agent.name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>
-        )}
+        </div>
 
-        <div ref={messagesEndRef} />
+        {/* Messages Area */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {messages.length === 0 && !streamingMessage && (
+            <div className="flex items-center justify-center h-full text-gray-500">
+              {currentConversationId
+                ? "This conversation is empty"
+                : "Start a conversation by typing a message below"}
+            </div>
+          )}
+
+          {messages.map((message) => (
+            <ChatMessage key={message.id} message={message} />
+          ))}
+
+          {/* Streaming message */}
+          {streamingMessage && (
+            <div className="flex justify-start mb-4">
+              <div className="max-w-[70%] rounded-lg px-4 py-2 bg-white border border-gray-200 text-gray-900">
+                <div className="text-sm whitespace-pre-wrap">
+                  {streamingMessage}
+                  <span className="inline-block w-1 h-4 ml-1 bg-gray-900 animate-pulse" />
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Input Area */}
+        <ChatInput
+          onSend={handleSendMessage}
+          disabled={!currentProject || !currentAgent || isStreaming}
+        />
       </div>
-
-      {/* Input Area */}
-      <ChatInput
-        onSend={handleSendMessage}
-        disabled={!currentProject || !currentAgent || isStreaming}
-      />
     </div>
   );
 };
