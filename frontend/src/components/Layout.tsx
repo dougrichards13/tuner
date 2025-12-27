@@ -16,31 +16,31 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   ];
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-slate-900">
       {/* Sidebar */}
-      <div className="w-64 bg-gray-900 text-white flex flex-col">
+      <div className="w-64 bg-slate-950 border-r border-slate-800/50 flex flex-col">
         {/* Logo/Branding */}
-        <div className="p-6 border-b border-gray-700">
-          <h1 className="text-2xl font-bold">NeuroLine</h1>
-          <p className="text-xs text-gray-400 mt-1">AI Accelerator</p>
-          <p className="text-xs text-gray-500">by Smart Factory</p>
+        <div className="p-6 border-b border-slate-800/50">
+          <h1 className="text-2xl font-bold text-slate-100 tracking-tight">NeuroLine</h1>
+          <p className="text-xs text-blue-400/80 mt-1.5 font-medium">AI Accelerator</p>
+          <p className="text-xs text-slate-500 mt-0.5">Smart Factory</p>
         </div>
 
         {/* Navigation */}
         <nav className="flex-1 p-4">
-          <ul className="space-y-2">
+          <ul className="space-y-1">
             {navItems.map((item) => (
               <li key={item.path}>
                 <Link
                   to={item.path}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${
                     isActive(item.path)
-                      ? "bg-blue-600 text-white"
-                      : "text-gray-300 hover:bg-gray-800 hover:text-white"
+                      ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20"
+                      : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
                   }`}
                 >
-                  <span className="text-xl">{item.icon}</span>
-                  <span className="font-medium">{item.label}</span>
+                  <span className="text-lg">{item.icon}</span>
+                  <span className="font-medium text-sm">{item.label}</span>
                 </Link>
               </li>
             ))}
@@ -48,14 +48,16 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         </nav>
 
         {/* Footer */}
-        <div className="p-4 border-t border-gray-700 text-xs text-gray-400">
-          <p>Contact: Doug Richards</p>
-          <p className="mt-1">Smart Factory © 2025</p>
+        <div className="p-4 border-t border-slate-800/50">
+          <div className="text-xs text-slate-500 space-y-1">
+            <p className="font-medium text-slate-400">Doug Richards</p>
+            <p>Smart Factory © 2025</p>
+          </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-hidden">{children}</div>
+      <div className="flex-1 overflow-hidden bg-slate-900">{children}</div>
     </div>
   );
 };
