@@ -9,10 +9,29 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const isActive = (path: string) => location.pathname === path;
 
+  // Icon components
+  const ChatIcon = () => (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+    </svg>
+  );
+
+  const ProjectsIcon = () => (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+    </svg>
+  );
+
+  const AgentsIcon = () => (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    </svg>
+  );
+
   const navItems = [
-    { path: "/", label: "Chat", icon: "💬" },
-    { path: "/projects", label: "Projects", icon: "📁" },
-    { path: "/agents", label: "Agents", icon: "🤖" },
+    { path: "/", label: "Chat", Icon: ChatIcon },
+    { path: "/projects", label: "Projects", Icon: ProjectsIcon },
+    { path: "/agents", label: "Agents", Icon: AgentsIcon },
   ];
 
   return (
@@ -39,7 +58,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                       : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
                   }`}
                 >
-                  <span className="text-lg">{item.icon}</span>
+                  <item.Icon />
                   <span className="font-medium text-sm">{item.label}</span>
                 </Link>
               </li>

@@ -94,40 +94,45 @@ export const Agents: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Agents</h1>
-            <p className="text-sm text-gray-500 mt-1">
-              Configure specialized AI agents with custom parameters
-            </p>
+      <div className="border-b border-slate-700/50 bg-slate-900/50 backdrop-blur-xl">
+        <div className="px-8 py-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-semibold text-slate-100 tracking-tight">Agents</h1>
+              <p className="text-sm text-slate-400 mt-1">
+                Configure specialized AI agents with custom parameters
+              </p>
+            </div>
+            {!isCreating && (
+              <button
+                onClick={() => setIsCreating(true)}
+                className="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-500/30 font-medium flex items-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                New Agent
+              </button>
+            )}
           </div>
-          {!isCreating && (
-            <button
-              onClick={() => setIsCreating(true)}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              + New Agent
-            </button>
-          )}
         </div>
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto p-6">
+      <div className="flex-1 overflow-y-auto px-8 py-6">
         {/* Create/Edit Form */}
         {isCreating && (
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h2 className="text-lg font-semibold mb-4">
+          <div className="bg-slate-800/30 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6 mb-6">
+            <h2 className="text-lg font-semibold text-slate-100 mb-4">
               {editingId ? "Edit Agent" : "Create New Agent"}
             </h2>
             <form onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-300 mb-1">
                       Agent Name *
                     </label>
                     <input
@@ -137,12 +142,12 @@ export const Agents: React.FC = () => {
                         setFormData({ ...formData, name: e.target.value })
                       }
                       required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700/50 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
                       placeholder="e.g., Code Assistant, Writer"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-300 mb-1">
                       Base Model *
                     </label>
                     <input
@@ -152,14 +157,14 @@ export const Agents: React.FC = () => {
                         setFormData({ ...formData, base_model: e.target.value })
                       }
                       required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700/50 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
                       placeholder="e.g., llama2, mistral, codellama"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-slate-300 mb-1">
                     Description
                   </label>
                   <textarea
@@ -168,13 +173,13 @@ export const Agents: React.FC = () => {
                       setFormData({ ...formData, description: e.target.value })
                     }
                     rows={2}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700/50 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all resize-none"
                     placeholder="What this agent specializes in..."
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-slate-300 mb-1">
                     System Prompt
                   </label>
                   <textarea
@@ -183,14 +188,14 @@ export const Agents: React.FC = () => {
                       setFormData({ ...formData, system_prompt: e.target.value })
                     }
                     rows={4}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700/50 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all resize-none"
                     placeholder="You are a helpful assistant that..."
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-300 mb-1">
                       Temperature: {formData.temperature}
                     </label>
                     <input
@@ -205,15 +210,15 @@ export const Agents: React.FC = () => {
                           temperature: parseFloat(e.target.value),
                         })
                       }
-                      className="w-full"
+                      className="w-full accent-blue-500"
                     />
-                    <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <div className="flex justify-between text-xs text-slate-500 mt-1">
                       <span>Precise</span>
                       <span>Creative</span>
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-300 mb-1">
                       Max Tokens
                     </label>
                     <input
@@ -227,7 +232,7 @@ export const Agents: React.FC = () => {
                       }
                       min="128"
                       max="32000"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700/50 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
                     />
                   </div>
                 </div>
@@ -237,7 +242,7 @@ export const Agents: React.FC = () => {
                 <button
                   type="submit"
                   disabled={createMutation.isPending || updateMutation.isPending}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 transition-colors"
+                  className="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-500/30 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {createMutation.isPending || updateMutation.isPending
                     ? "Saving..."
@@ -248,7 +253,7 @@ export const Agents: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                  className="px-4 py-2.5 bg-slate-700/50 hover:bg-slate-700 text-slate-300 rounded-lg transition-all font-medium"
                 >
                   Cancel
                 </button>
@@ -259,9 +264,9 @@ export const Agents: React.FC = () => {
 
         {/* Agents List */}
         {isLoading ? (
-          <div className="text-center py-12 text-gray-500">Loading...</div>
+          <div className="text-center py-12 text-slate-500">Loading...</div>
         ) : !agents || agents.length === 0 ? (
-          <div className="text-center py-12 text-gray-500">
+          <div className="text-center py-12 text-slate-500">
             No agents yet. Create your first agent to get started!
           </div>
         ) : (
@@ -269,35 +274,35 @@ export const Agents: React.FC = () => {
             {agents.map((agent) => (
               <div
                 key={agent.id}
-                className="bg-white rounded-lg shadow-md p-5 hover:shadow-lg transition-shadow"
+                className="bg-slate-800/30 backdrop-blur-sm hover:bg-slate-800/50 border border-slate-700/50 hover:border-slate-600/50 rounded-xl p-5 transition-all duration-200 hover:shadow-xl hover:shadow-black/20"
               >
                 <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <h3 className="text-lg font-semibold text-slate-100">
                     {agent.name}
                   </h3>
-                  <span className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded">
+                  <span className="px-2 py-1 text-xs bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-md font-medium">
                     {agent.base_model}
                   </span>
                 </div>
                 {agent.description && (
-                  <p className="text-sm text-gray-600 mb-3">
+                  <p className="text-sm text-slate-400 mb-3">
                     {agent.description}
                   </p>
                 )}
-                <div className="space-y-1 text-xs text-gray-500 mb-4">
+                <div className="space-y-1 text-xs text-slate-500 mb-4">
                   <div className="flex justify-between">
                     <span>Temperature:</span>
-                    <span className="font-medium">{agent.temperature}</span>
+                    <span className="font-medium text-slate-400">{agent.temperature}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Max Tokens:</span>
-                    <span className="font-medium">{agent.max_tokens}</span>
+                    <span className="font-medium text-slate-400">{agent.max_tokens}</span>
                   </div>
                 </div>
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleEdit(agent)}
-                    className="flex-1 px-3 py-1.5 text-sm bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"
+                    className="flex-1 px-3 py-1.5 text-sm bg-slate-700/50 hover:bg-slate-700 text-slate-300 rounded-lg transition-all font-medium"
                   >
                     Edit
                   </button>
@@ -307,7 +312,7 @@ export const Agents: React.FC = () => {
                         deleteMutation.mutate(agent.id);
                       }
                     }}
-                    className="flex-1 px-3 py-1.5 text-sm bg-red-50 text-red-600 rounded hover:bg-red-100 transition-colors"
+                    className="flex-1 px-3 py-1.5 text-sm bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 rounded-lg transition-all font-medium"
                   >
                     Delete
                   </button>

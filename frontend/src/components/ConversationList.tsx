@@ -40,14 +40,16 @@ export const ConversationList: React.FC<ConversationListProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-full bg-gray-50 border-r border-gray-200">
+    <div className="flex flex-col h-full bg-slate-950 border-r border-slate-700/50">
       {/* Header */}
-      <div className="p-4 border-b border-gray-200">
+      <div className="p-4 border-b border-slate-700/50">
         <button
           onClick={onNewConversation}
-          className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+          className="w-full px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-500/30 flex items-center justify-center gap-2 font-medium"
         >
-          <span className="text-lg">+</span>
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
           <span>New Chat</span>
         </button>
       </div>
@@ -55,7 +57,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({
       {/* Conversation List */}
       <div className="flex-1 overflow-y-auto">
         {conversations.length === 0 ? (
-          <div className="p-4 text-center text-gray-500 text-sm">
+          <div className="p-4 text-center text-slate-500 text-sm">
             No conversations yet. Start a new chat!
           </div>
         ) : (
@@ -63,24 +65,24 @@ export const ConversationList: React.FC<ConversationListProps> = ({
             {conversations.map((conversation) => (
               <div
                 key={conversation.id}
-                className={`px-4 py-3 cursor-pointer border-l-4 transition-colors ${
+                className={`px-4 py-3 cursor-pointer border-l-4 transition-all ${
                   currentConversationId === conversation.id
-                    ? "bg-blue-50 border-blue-600"
-                    : "border-transparent hover:bg-gray-100"
+                    ? "bg-slate-800/50 border-blue-500"
+                    : "border-transparent hover:bg-slate-800/30"
                 }`}
                 onClick={() => onSelectConversation(conversation.id)}
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-gray-900 truncate">
+                    <p className="text-sm text-slate-300 truncate">
                       {getConversationPreview(conversation)}
                     </p>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-slate-500">
                         {formatTime(conversation.created_at)}
                       </span>
-                      <span className="text-xs text-gray-400">•</span>
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-slate-600">•</span>
+                      <span className="text-xs text-slate-500">
                         {conversation.messages.length} msg{conversation.messages.length !== 1 ? 's' : ''}
                       </span>
                     </div>
@@ -93,15 +95,14 @@ export const ConversationList: React.FC<ConversationListProps> = ({
                           onDeleteConversation(conversation.id);
                         }
                       }}
-                      className="text-gray-400 hover:text-red-600 transition-colors p-1"
+                      className="text-slate-500 hover:text-red-400 transition-colors p-1"
                       title="Delete conversation"
                     >
                       <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4"
+                        className="w-4 h-4"
                         fill="none"
-                        viewBox="0 0 24 24"
                         stroke="currentColor"
+                        viewBox="0 0 24 24"
                       >
                         <path
                           strokeLinecap="round"

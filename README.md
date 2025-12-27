@@ -20,6 +20,17 @@ A sophisticated, 100% local AI platform that combines neural intelligence with a
 - **MCP Server Integration** - Dynamic model switching and tool integration (planned)
 - **100% Local** - All data stays on your machine, works completely offline
 
+## Design System
+
+NeuroLine features a premium, enterprise-grade dark theme aligned with Smart Factory's professional brand. The interface emphasizes:
+
+- **Dark Mode First** - Sophisticated slate-based color palette optimized for extended use
+- **Glassmorphic UI** - Modern depth through backdrop blur and semi-transparent surfaces
+- **Professional Excellence** - Clean typography, intentional spacing, smooth micro-interactions
+- **Future-Tech Aesthetic** - Cutting-edge design patterns that convey technical credibility
+
+For complete design guidelines, component patterns, and brand standards, see [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md).
+
 ## Technology Stack
 
 ### Backend

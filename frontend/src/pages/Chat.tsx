@@ -178,7 +178,7 @@ export const Chat: React.FC = () => {
   };
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Conversation List Sidebar */}
       {showConversations && (
         <div className="w-80 flex-shrink-0">
@@ -194,21 +194,20 @@ export const Chat: React.FC = () => {
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <div className="bg-white border-b border-gray-200 p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
+        <div className="border-b border-slate-700/50 bg-slate-900/50 backdrop-blur-xl">
+          <div className="px-6 py-4">
+            <div className="flex items-center gap-3">
               {/* Toggle Conversations Button */}
               <button
                 onClick={() => setShowConversations(!showConversations)}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2 bg-slate-700/30 hover:bg-slate-700 text-slate-400 hover:text-slate-200 rounded-lg transition-all"
                 title={showConversations ? "Hide conversations" : "Show conversations"}
               >
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-gray-600"
+                  className="w-5 h-5"
                   fill="none"
-                  viewBox="0 0 24 24"
                   stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
                   <path
                     strokeLinecap="round"
@@ -219,7 +218,7 @@ export const Chat: React.FC = () => {
                 </svg>
               </button>
 
-              <div className="flex gap-4">
+              <div className="flex gap-3">
                 {/* Project Selector */}
                 <select
                   value={currentProject?.id || ""}
@@ -229,7 +228,7 @@ export const Chat: React.FC = () => {
                     );
                     setCurrentProject(project || null);
                   }}
-                  className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="px-4 py-2 bg-slate-900/50 border border-slate-700/50 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
                 >
                   <option value="">Select Project</option>
                   {projects?.map((project) => (
@@ -248,7 +247,7 @@ export const Chat: React.FC = () => {
                     );
                     setCurrentAgent(agent || null);
                   }}
-                  className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="px-4 py-2 bg-slate-900/50 border border-slate-700/50 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
                 >
                   <option value="">Select Agent</option>
                   {agents?.map((agent) => (
@@ -263,9 +262,9 @@ export const Chat: React.FC = () => {
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 overflow-y-auto p-6 space-y-4">
           {messages.length === 0 && !streamingMessage && (
-            <div className="flex items-center justify-center h-full text-gray-500">
+            <div className="flex items-center justify-center h-full text-slate-500">
               {currentConversationId
                 ? "This conversation is empty"
                 : "Start a conversation by typing a message below"}
@@ -279,10 +278,10 @@ export const Chat: React.FC = () => {
           {/* Streaming message */}
           {streamingMessage && (
             <div className="flex justify-start mb-4">
-              <div className="max-w-[70%] rounded-lg px-4 py-2 bg-white border border-gray-200 text-gray-900">
-                <div className="text-sm whitespace-pre-wrap">
+              <div className="max-w-[70%] rounded-lg px-4 py-3 bg-slate-800/30 backdrop-blur-sm border border-slate-700/50">
+                <div className="text-sm whitespace-pre-wrap text-slate-300">
                   {streamingMessage}
-                  <span className="inline-block w-1 h-4 ml-1 bg-gray-900 animate-pulse" />
+                  <span className="inline-block w-1 h-4 ml-1 bg-blue-400 animate-pulse" />
                 </div>
               </div>
             </div>
