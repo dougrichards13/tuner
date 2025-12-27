@@ -2,8 +2,24 @@ export interface Project {
   id: number;
   name: string;
   description?: string;
+  project_type: string;
+  status: string;
   created_at: string;
   updated_at: string;
+  last_accessed: string;
+}
+
+export interface ProjectTypeMetadata {
+  label: string;
+  description: string;
+  icon: string;
+  suggested_agents: string[];
+}
+
+export interface ProjectStatusMetadata {
+  label: string;
+  color: string;
+  icon: string;
 }
 
 export interface Agent {

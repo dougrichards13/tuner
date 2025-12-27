@@ -1,12 +1,15 @@
 from pydantic import BaseModel, Field
 from datetime import datetime
 from typing import Optional
+from app.models.enums import ProjectType, ProjectStatus
 
 
 # Project schemas
 class ProjectBase(BaseModel):
     name: str = Field(..., min_length=1, max_length=100)
     description: Optional[str] = None
+    project_type: ProjectType = ProjectType.GENERAL
+    status: ProjectStatus = ProjectStatus.ACTIVE
 
 
 class ProjectCreate(ProjectBase):
@@ -16,12 +19,15 @@ class ProjectCreate(ProjectBase):
 class ProjectUpdate(BaseModel):
     name: Optional[str] = Field(None, min_length=1, max_length=100)
     description: Optional[str] = None
+    project_type: Optional[ProjectType] = None
+    status: Optional[ProjectStatus] = None
 
 
 class ProjectResponse(ProjectBase):
     id: int
     created_at: datetime
     updated_at: datetime
+    last_accessed: datetime
     
     class Config:
         from_attributes = True

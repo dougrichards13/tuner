@@ -1,8 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
+from datetime import datetime
 from app.database import get_db, Project
 from app.models import ProjectCreate, ProjectUpdate, ProjectResponse
+from app.models.enums import PROJECT_TYPE_METADATA, PROJECT_STATUS_METADATA
 
 router = APIRouter(prefix="/api/projects", tags=["projects"])
 
@@ -59,3 +61,27 @@ def delete_project(project_id: int, db: Session = Depends(get_db)):
     db.delete(project)
     db.commit()
     return None
+
+
+@router.get("/metadata/types")
+def get_project_types():
+    """Get available project types with metadata."""
+    return PROJECT_TYPE_METADATA
+
+
+@router.get("/metadata/statuses")
+def get_project_statuses():
+    """Get available project statuses with metadata."""
+    return PROJECT_STATUS_METADATA
+
+
+@router.patch("/{project_id}/access")
+def update_last_accessed(project_id: int, db: Session = Depends(get_db)):
+    """Update project's last accessed timestamp."""
+    project = db.query(Project).filter(Project.id == project_id).first()
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+    
+    project.last_accessed = datetime.utcnow()
+    db.commit()
+    return {"success": True}

@@ -25,8 +25,11 @@ class Project(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     description = Column(Text, nullable=True)
+    project_type = Column(String, default="general")  # web_app, api, data_analysis, documentation, database, general
+    status = Column(String, default="active")  # active, paused, completed, archived
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    last_accessed = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Relationships
     conversations = relationship("Conversation", back_populates="project", cascade="all, delete-orphan")

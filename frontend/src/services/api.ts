@@ -18,6 +18,9 @@ export const projectsApi = {
   update: (id: number, data: Partial<Project>) =>
     api.put<Project>(`/api/projects/${id}`, data),
   delete: (id: number) => api.delete(`/api/projects/${id}`),
+  getTypeMetadata: () => api.get("/api/projects/metadata/types"),
+  getStatusMetadata: () => api.get("/api/projects/metadata/statuses"),
+  updateLastAccessed: (id: number) => api.patch(`/api/projects/${id}/access`),
 };
 
 // Agents
